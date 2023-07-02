@@ -1,17 +1,18 @@
 {
   "private": true,
   "scripts": {
-    "dev": "next",
+    "prepare": "husky install",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "typecheck": "tsc"
+    "lint": "next lint"
   },
   "dependencies": {
     "@notionhq/client": "^2.2.6",
     "classnames": "^2.3.1",
     "date-fns": "^2.28.0",
     "gray-matter": "^4.0.3",
-    "next": "latest",
+    "next": "^13.4.7",
     "notion-to-md": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -20,11 +21,29 @@
     "typescript": "^4.7.4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.2.0",
+    "@commitlint/config-conventional": "^17.2.0",
     "@types/node": "^18.0.3",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.59.7",
+    "@typescript-eslint/parser": "^5.59.7",
     "autoprefixer": "^10.4.7",
+    "eslint": "^8.44.0",
+    "eslint-config-next": "^13.4.7",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^16.0.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.4"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint --cache --fix",
+    "*.--write": "prettier --write"
   }
 }
