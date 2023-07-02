@@ -3,27 +3,27 @@ import Image from "next/image";
 import Link from "next/link";
 
 type Props = {
-  title: string;
   src: string;
-  id?: string;
+  title: string;
+  href?: string;
 };
 
-const CoverImage = ({ title, src, id }: Props) => {
+const Cover = ({ src, title, href }: Props) => {
   const image = (
     <Image
       src={src}
       alt={`Cover Image for ${title}`}
       className={cn("shadow-sm w-full", {
-        "hover:shadow-lg transition-shadow duration-200": id,
+        "hover:shadow-lg transition-shadow duration-200": href,
       })}
-      width={1300}
+      width={1200}
       height={630}
     />
   );
   return (
     <div className="sm:mx-0">
-      {id ? (
-        <Link as={`/posts/${id}`} href="/posts/[id]" aria-label={title}>
+      {href ? (
+        <Link href={href} aria-label={title}>
           {image}
         </Link>
       ) : (
@@ -33,4 +33,4 @@ const CoverImage = ({ title, src, id }: Props) => {
   );
 };
 
-export default CoverImage;
+export default Cover;
