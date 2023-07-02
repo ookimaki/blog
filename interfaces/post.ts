@@ -1,15 +1,12 @@
 import type Author from './author'
 
 type PostType = {
-  slug: string
+  id: string
   title: string
   date: string
-  coverImage: string
+  cover: string
   author: Author
-  excerpt: string
-  ogImage: {
-    url: string
-  }
+  summary: string
   content: string
 }
 
