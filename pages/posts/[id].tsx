@@ -5,7 +5,7 @@ import PostBody from '../../components/post-body'
 import Header from '../../components/header'
 import PostHeader from '../../components/post-header'
 import Layout from '../../components/layout'
-import { getPostBySlug, getAllPosts } from '../../lib/api'
+import { getPostById, getAllPosts } from '../../lib/api'
 import PostTitle from '../../components/post-title'
 import Head from 'next/head'
 import { CMS_NAME } from '../../lib/constants'
@@ -21,7 +21,7 @@ type Props = {
 export default function Post({ post, morePosts, preview }: Props) {
   const router = useRouter()
   const title = `${post.title} | Next.js Blog Example with ${CMS_NAME}`
-  if (!router.isFallback && !post?.slug) {
+  if (!router.isFallback && !post?.id) {
     return <ErrorPage statusCode={404} />
   }
   return (
@@ -35,11 +35,11 @@ export default function Post({ post, morePosts, preview }: Props) {
             <article className="mb-32">
               <Head>
                 <title>{title}</title>
-                <meta property="og:image" content={post.ogImage.url} />
+                <meta property="og:image" content={post.cover} />
               </Head>
               <PostHeader
                 title={post.title}
-                coverImage={post.coverImage}
+                cover={post.cover}
                 date={post.date}
                 author={post.author}
               />
@@ -54,22 +54,13 @@ export default function Post({ post, morePosts, preview }: Props) {
 
 type Params = {
   params: {
-    slug: string
+    id: number
   }
 }
 
 export async function getStaticProps({ params }: Params) {
-  const post = getPostBySlug(params.slug, [
-    'title',
-    'date',
-    'slug',
-    'author',
-    'content',
-    'ogImage',
-    'coverImage',
-  ])
+  const post = await getPostById(params.id)
   const content = await markdownToHtml(post.content || '')
-
   return {
     props: {
       post: {
@@ -81,13 +72,13 @@ export async function getStaticProps({ params }: Params) {
 }
 
 export async function getStaticPaths() {
-  const posts = getAllPosts(['slug'])
+  const posts = await getAllPosts()
 
   return {
     paths: posts.map((post) => {
       return {
         params: {
-          slug: post.slug,
+          id: post.id,
         },
       }
     }),
